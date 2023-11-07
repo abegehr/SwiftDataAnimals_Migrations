@@ -16,12 +16,11 @@ struct AnimalEditor: View {
     }
     
     @State private var name = ""
-    @State private var diet = Animal.Diet.herbivorous
-    @State private var category: AnimalCategory?
+    @State private var selectedDiet = Animal.Diet.herbivorous
+    @State private var selectedCategory: AnimalCategory?
     
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject() private var navigationContext: NavigationContext
     
     @Query(sort: \AnimalCategory.name) private var categories: [AnimalCategory]
     
@@ -30,14 +29,14 @@ struct AnimalEditor: View {
             Form {
                 TextField("Name", text: $name)
                 
-                Picker("Category", selection: $category) {
+                Picker("Category", selection: $selectedCategory) {
                     Text("Select a category").tag(nil as AnimalCategory?)
                     ForEach(categories) { category in
                         Text(category.name).tag(category as AnimalCategory?)
                     }
                 }
                 
-                Picker("Diet", selection: $diet) {
+                Picker("Diet", selection: $selectedDiet) {
                     ForEach(Animal.Diet.allCases, id: \.self) { diet in
                         Text(diet.rawValue).tag(diet)
                     }
@@ -56,7 +55,7 @@ struct AnimalEditor: View {
                         }
                     }
                     // Require a category to save changes.
-                    .disabled($category.wrappedValue == nil)
+                    .disabled($selectedCategory.wrappedValue == nil)
                 }
                 
                 ToolbarItem(placement: .cancellationAction) {
@@ -69,8 +68,8 @@ struct AnimalEditor: View {
                 if let animal {
                     // Edit the incoming animal.
                     name = animal.name
-                    diet = animal.diet
-                    category = animal.category
+                    selectedDiet = animal.diet
+                    selectedCategory = animal.category
                 }
             }
             #if os(macOS)
@@ -83,12 +82,12 @@ struct AnimalEditor: View {
         if let animal {
             // Edit the animal.
             animal.name = name
-            animal.diet = diet
-            animal.category = category
+            animal.diet = selectedDiet
+            animal.category = selectedCategory
         } else {
             // Add an animal.
-            let newAnimal = Animal(name: name, diet: diet)
-            newAnimal.category = category
+            let newAnimal = Animal(name: name, diet: selectedDiet)
+            newAnimal.category = selectedCategory
             modelContext.insert(newAnimal)
         }
     }
@@ -97,13 +96,11 @@ struct AnimalEditor: View {
 #Preview("Add animal") {
     ModelContainerPreview(ModelContainer.sample) {
         AnimalEditor(animal: nil)
-            .environmentObject(NavigationContext())
     }
 }
 
 #Preview("Edit animal") {
     ModelContainerPreview(ModelContainer.sample) {
         AnimalEditor(animal: .kangaroo)
-            .environmentObject(NavigationContext())
     }
 }

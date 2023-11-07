@@ -13,7 +13,7 @@ struct AnimalDetailView: View {
     @State private var isEditing = false
     @State private var isDeleting = false
     @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject() private var navigationContext: NavigationContext
+    @Environment(NavigationContext.self) private var navigationContext
 
     var body: some View {
         if let animal {
@@ -81,6 +81,6 @@ private struct AnimalDetailContentView: View {
 #Preview {
     ModelContainerPreview(ModelContainer.sample) {
         AnimalDetailView(animal: .kangaroo)
-            .environmentObject(NavigationContext())
+            .environment(NavigationContext())
     }
 }

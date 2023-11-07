@@ -7,11 +7,11 @@ An observable type that manages attributes of the app's navigation system.
 
 import SwiftUI
 
-// For more information, see the iOS & iPadOS 17 Release Notes. (113978783)
-class NavigationContext: ObservableObject {
-    @Published var selectedAnimalCategoryName: String?
-    @Published var selectedAnimal: Animal?
-    @Published var columnVisibility: NavigationSplitViewVisibility
+@Observable
+class NavigationContext {
+    var selectedAnimalCategoryName: String?
+    var selectedAnimal: Animal?
+    var columnVisibility: NavigationSplitViewVisibility
     
     var sidebarTitle = "Categories"
     

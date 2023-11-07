@@ -11,7 +11,8 @@ import SwiftData
 @Model
 final class AnimalCategory {
     @Attribute(.unique) var name: String
-    // When deleting a category, `.cascade` deletes all animals in that category.
+    // `.cascade` tells SwiftData to delete all animals contained in the
+    // category when deleting it.
     @Relationship(deleteRule: .cascade, inverse: \Animal.category)
     var animals = [Animal]()
     

@@ -22,7 +22,7 @@ struct AnimalListView: View {
 
 private struct AnimalList: View {
     let animalCategoryName: String
-    @EnvironmentObject() private var navigationContext: NavigationContext
+    @Environment(NavigationContext.self) private var navigationContext
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Animal.name) private var animals: [Animal]
     @State private var isEditorPresented = false
@@ -36,6 +36,7 @@ private struct AnimalList: View {
     }
     
     var body: some View {
+        @Bindable var navigationContext = navigationContext
         List(selection: $navigationContext.selectedAnimal) {
             ForEach(animals) { animal in
                 NavigationLink(animal.name, value: animal)
@@ -89,7 +90,7 @@ private struct AddAnimalButton: View {
     ModelContainerPreview(ModelContainer.sample) {
         NavigationStack {
             AnimalListView(animalCategoryName: AnimalCategory.mammal.name)
-                .environmentObject(NavigationContext())
+                .environment(NavigationContext())
         }
     }
 }
@@ -103,7 +104,7 @@ private struct AddAnimalButton: View {
 #Preview("No animals") {
     ModelContainerPreview(ModelContainer.sample) {
         AnimalList(animalCategoryName: AnimalCategory.fish.name)
-            .environmentObject(NavigationContext())
+            .environment(NavigationContext())
     }
 }
 

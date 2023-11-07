@@ -10,10 +10,11 @@ import SwiftUI
 import SwiftData
 
 struct ThreeColumnContentView: View {
-    @EnvironmentObject private var navigationContext: NavigationContext
+    @Environment(NavigationContext.self) private var navigationContext
     @Environment(\.modelContext) private var modelContext
     
     var body: some View {
+        @Bindable var navigationContext = navigationContext
         NavigationSplitView(columnVisibility: $navigationContext.columnVisibility) {
             AnimalCategoryListView()
                 .navigationTitle(navigationContext.sidebarTitle)
@@ -31,6 +32,6 @@ struct ThreeColumnContentView: View {
 #Preview {
     ModelContainerPreview(ModelContainer.sample) {
         ThreeColumnContentView()
-            .environmentObject(NavigationContext())
+            .environment(NavigationContext())
     }
 }

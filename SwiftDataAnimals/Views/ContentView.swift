@@ -9,11 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @StateObject private var navigationContext = NavigationContext()
+    @State private var navigationContext = NavigationContext()
 
     var body: some View {
         ThreeColumnContentView()
-            .environmentObject(navigationContext)
+            .environment(navigationContext)
     }
 }
 

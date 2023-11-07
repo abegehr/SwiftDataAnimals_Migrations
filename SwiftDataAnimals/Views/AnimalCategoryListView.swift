@@ -9,12 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct AnimalCategoryListView: View {
-    @EnvironmentObject() private var navigationContext: NavigationContext
+    @Environment(NavigationContext.self) private var navigationContext
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \AnimalCategory.name) private var animalCategories: [AnimalCategory]
     @State private var isReloadPresented = false
 
     var body: some View {
+        @Bindable var navigationContext = navigationContext
         List(selection: $navigationContext.selectedAnimalCategoryName) {
             #if os(macOS)
             Section(navigationContext.sidebarTitle) {
@@ -69,7 +70,7 @@ private struct ListCategories: View {
         NavigationStack {
             AnimalCategoryListView()
         }
-        .environmentObject(NavigationContext())
+        .environment(NavigationContext())
     }
 }
 
@@ -80,6 +81,6 @@ private struct ListCategories: View {
                 ListCategories(animalCategories: [.amphibian, .bird])
             }
         }
-        .environmentObject(NavigationContext())
+        .environment(NavigationContext())
     }
 }

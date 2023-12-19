@@ -16,6 +16,8 @@ private let logger = Logger(subsystem: "com.example.apple-samplecode.SwiftDataAn
 final class ModelTests: XCTestCase {
     
     var url: URL!
+    var container: ModelContainer!
+    var context: ModelContext!
     
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -25,7 +27,15 @@ final class ModelTests: XCTestCase {
     
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+
+        // Cleanup resources
+        self.container = nil
+        self.context = nil
+        
+        // Delete database
         try FileManager.default.removeItem(at: self.url)
+        try? FileManager.default.removeItem(at: self.url.deletingPathExtension().appendingPathExtension("store-shm"))
+        try? FileManager.default.removeItem(at: self.url.deletingPathExtension().appendingPathExtension("store-wal"))
     }
     
     func testMigrationV1toV2() throws {
@@ -34,9 +44,6 @@ final class ModelTests: XCTestCase {
         // Any test you write for XCTest can be annotated as throws and async.
         // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-        
-        var container: ModelContainer!
-        var context: ModelContext!
         
         // Setup V1
         container = try setupModelContainer(for: SchemaV1.self, url: self.url)
@@ -59,9 +66,6 @@ final class ModelTests: XCTestCase {
         // Assert: there are the same number of animals as before the migration
         let animalsV1Post = try context.fetch(FetchDescriptor<SchemaV1.Animal>())
         XCTAssertEqual(animalsV1.count, animalsV1Post.count, "Number of animals before and after migration and rollback are different.")
-        
-        container = nil
-        context = nil
     }
     
     //    func testPerformanceExample() throws {

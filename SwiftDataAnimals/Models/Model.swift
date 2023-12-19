@@ -1,5 +1,5 @@
 //
-//  MigrationPlan.swift
+//  Model.swift
 //  SwiftDataAnimals
 //
 //  Created by Anton Begehr on 19.12.23.
@@ -12,32 +12,32 @@ import OSLog
 
 private let logger = Logger(subsystem: "com.example.apple-samplecode.SwiftDataAnimals", category: "Model")
 
-func setupModelContainer() -> ModelContainer {
+// MARK: Model Container
+
+func setupModelContainer(for versionedSchema: VersionedSchema.Type = SchemaLatest.self, rollback: Bool = false) -> ModelContainer {
     do {
-        let config = ModelConfiguration()
+        logger.info("init - versionedSchema: \(String(describing: versionedSchema))")
+        
+        let schema = Schema(versionedSchema: versionedSchema)
+        logger.info("init - schema: \(String(describing: schema))")
+        
+        let config = ModelConfiguration(schema: Schema(versionedSchema: SchemaLatest.self))
+        logger.info("init - config: \(String(describing: config))")
         
         let container = try ModelContainer(
-            for: AnimalCategory.self,
-            migrationPlan: MigrationPlan.self,
-            configurations: config
+            for: schema,
+            migrationPlan: rollback ? RollbackMigrationPlan.self : MigrationPlan.self,
+            configurations: [config]
         )
-        
-        //            let schema = Schema(versionedSchema: SchemaLatest.self)
-        //            logger.info("init - schema: \(schema)")
-        //            self.container = try ModelContainer(
-        //                for: Schema(versionedSchema: SchemaLatest.self),
-        //                migrationPlan: MigrationPlan.self,
-        //                configurations: [config]
-        //            )
-        
-        logger.info("init - config: \(String(describing: config))")
-        logger.info("init - setup container: \(String(describing: container))")
+        logger.info("init - container: \(String(describing: container))")
         
         return container
     } catch {
         fatalError("Failed to setup ModelContainer - Error: \(error)")
     }
 }
+
+// MARK: Migration Plan
 
 enum MigrationPlan: SchemaMigrationPlan {
     static var schemas: [any VersionedSchema.Type] {
@@ -69,6 +69,31 @@ enum MigrationPlan: SchemaMigrationPlan {
             }
             
             try context.save()
+        }
+    )
+}
+
+// MARK: Rollback Migration Plan
+
+enum RollbackMigrationPlan: SchemaMigrationPlan {
+    static var schemas: [any VersionedSchema.Type] {
+        [SchemaV2.self, SchemaV1.self]
+    }
+    
+    static var stages: [MigrationStage] {
+        [migrateV2toV1]
+    }
+    
+    // MARK: Migration Stages
+    
+    static let migrateV2toV1 = MigrationStage.custom(
+        fromVersion: SchemaV2.self,
+        toVersion: SchemaV1.self,
+        willMigrate: { context in
+            logger.info("migrateV2toV1.willMigrate()")
+        },
+        didMigrate: { context in
+            logger.info("migrateV2toV1.didMigrate()")
         }
     )
 }

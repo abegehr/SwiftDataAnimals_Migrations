@@ -73,11 +73,11 @@ private struct AnimalDetailContentView: View {
                     Spacer()
                     Text("\(animal.diet.rawValue)")
                 }
-                HStack {
-                    Text("Extinct")
-                    Spacer()
-                    Text("\(animal.extinct ?? false ? "yes" : "no")")
-                }
+//                HStack {
+//                    Text("Extinct")
+//                    Spacer()
+//                    Text("\(animal.extinct ?? false ? "yes" : "no")")
+//                }
             }
         }
     }

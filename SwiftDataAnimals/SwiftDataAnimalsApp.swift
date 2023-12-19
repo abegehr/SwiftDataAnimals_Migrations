@@ -18,7 +18,11 @@ struct SwiftDataAnimalsApp: App {
     var container: ModelContainer
     
     init() {
-        self.container = setupModelContainer()
+        do {
+            self.container = try setupModelContainer()
+        } catch {
+            fatalError("Error setting up model container: \(error)")
+        }
     }
                                   
     var body: some Scene {

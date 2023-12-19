@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A0510BA2B31F3180077A28A /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0510AB2B31F2A70077A28A /* ModelTests.swift */; };
 		3A60B32E2B31DD2C00F20756 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A60B32D2B31DD2C00F20756 /* Model.swift */; };
 		3A60B3312B31DE3F00F20756 /* SchemaV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A60B3302B31DE3F00F20756 /* SchemaV1.swift */; };
 		3A60B3332B31DE9C00F20756 /* SchemaLatest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A60B3322B31DE9C00F20756 /* SchemaLatest.swift */; };
@@ -27,9 +28,22 @@
 		68E1B47F2A707A7E0066CFE9 /* AnimalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E1B47E2A707A7E0066CFE9 /* AnimalListView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3A0510B52B31F2F90077A28A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 68BB545A2A701B4B008EC4A5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 68BB54612A701B4B008EC4A5;
+			remoteInfo = SwiftDataAnimals;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		19F73108E181ABC96D86A7CC /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		316121F5352DF6A915F50793 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		3A0510A92B31F2360077A28A /* SwiftDataAnimals.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = SwiftDataAnimals.xctestplan; sourceTree = "<group>"; };
+		3A0510AB2B31F2A70077A28A /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
+		3A0510B12B31F2F90077A28A /* SwiftDataAnimalsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftDataAnimalsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A60B32D2B31DD2C00F20756 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		3A60B3302B31DE3F00F20756 /* SchemaV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaV1.swift; sourceTree = "<group>"; };
 		3A60B3322B31DE9C00F20756 /* SchemaLatest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaLatest.swift; sourceTree = "<group>"; };
@@ -53,6 +67,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3A0510AE2B31F2F90077A28A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		68BB545F2A701B4B008EC4A5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -69,6 +90,15 @@
 				19F73108E181ABC96D86A7CC /* SampleCode.xcconfig */,
 			);
 			name = Configuration;
+			sourceTree = "<group>";
+		};
+		3A0510A82B31F1C40077A28A /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				3A0510AB2B31F2A70077A28A /* ModelTests.swift */,
+				3A0510A92B31F2360077A28A /* SwiftDataAnimals.xctestplan */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		681BB4EC2A8BC35000986639 /* SampleData */ = {
@@ -93,10 +123,11 @@
 			isa = PBXGroup;
 			children = (
 				68BB54732A701B86008EC4A5 /* README.md */,
-				68BB54642A701B4B008EC4A5 /* SwiftDataAnimals */,
-				68BB54632A701B4B008EC4A5 /* Products */,
 				395C68324716D4A0DBA4F82A /* Configuration */,
 				F9617F9877E2C83A067A0A71 /* LICENSE */,
+				68BB54632A701B4B008EC4A5 /* Products */,
+				68BB54642A701B4B008EC4A5 /* SwiftDataAnimals */,
+				3A0510A82B31F1C40077A28A /* Tests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				68BB54622A701B4B008EC4A5 /* SwiftDataAnimals.app */,
+				3A0510B12B31F2F90077A28A /* SwiftDataAnimalsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -166,6 +198,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3A0510B02B31F2F90077A28A /* SwiftDataAnimalsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A0510B72B31F2F90077A28A /* Build configuration list for PBXNativeTarget "SwiftDataAnimalsTests" */;
+			buildPhases = (
+				3A0510AD2B31F2F90077A28A /* Sources */,
+				3A0510AE2B31F2F90077A28A /* Frameworks */,
+				3A0510AF2B31F2F90077A28A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3A0510B62B31F2F90077A28A /* PBXTargetDependency */,
+			);
+			name = SwiftDataAnimalsTests;
+			productName = SwiftDataAnimalsTests;
+			productReference = 3A0510B12B31F2F90077A28A /* SwiftDataAnimalsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		68BB54612A701B4B008EC4A5 /* SwiftDataAnimals */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 68BB54702A701B4E008EC4A5 /* Build configuration list for PBXNativeTarget "SwiftDataAnimals" */;
@@ -190,10 +240,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				DefaultBuildSystemTypeForWorkspace = Latest;
+				LastSwiftUpdateCheck = 1510;
 				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = Apple;
 				TargetAttributes = {
+					3A0510B02B31F2F90077A28A = {
+						CreatedOnToolsVersion = 15.1;
+						TestTargetID = 68BB54612A701B4B008EC4A5;
+					};
 					68BB54612A701B4B008EC4A5 = {
 						CreatedOnToolsVersion = 15.0;
 					};
@@ -213,11 +268,19 @@
 			projectRoot = "";
 			targets = (
 				68BB54612A701B4B008EC4A5 /* SwiftDataAnimals */,
+				3A0510B02B31F2F90077A28A /* SwiftDataAnimalsTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3A0510AF2B31F2F90077A28A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		68BB54602A701B4B008EC4A5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -230,6 +293,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3A0510AD2B31F2F90077A28A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A0510BA2B31F3180077A28A /* ModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		68BB545E2A701B4B008EC4A5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -255,7 +326,61 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3A0510B62B31F2F90077A28A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 68BB54612A701B4B008EC4A5 /* SwiftDataAnimals */;
+			targetProxy = 3A0510B52B31F2F90077A28A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		3A0510B82B31F2F90077A28A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = EW3E677XMJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.SwiftDataAnimalsTests--SAMPLE-CODE-DISAMBIGUATOR-";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SUPPORTED_PLATFORMS = "$(AVAILABLE_PLATFORMS)";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,3,4,6";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftDataAnimals.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SwiftDataAnimals";
+				TVOS_DEPLOYMENT_TARGET = 17.2;
+			};
+			name = Debug;
+		};
+		3A0510B92B31F2F90077A28A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = EW3E677XMJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.SwiftDataAnimalsTests--SAMPLE-CODE-DISAMBIGUATOR-";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SUPPORTED_PLATFORMS = "$(AVAILABLE_PLATFORMS)";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,3,4,6";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftDataAnimals.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SwiftDataAnimals";
+				TVOS_DEPLOYMENT_TARGET = 17.2;
+			};
+			name = Release;
+		};
 		68BB546E2A701B4E008EC4A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 19F73108E181ABC96D86A7CC /* SampleCode.xcconfig */;
@@ -450,6 +575,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3A0510B72B31F2F90077A28A /* Build configuration list for PBXNativeTarget "SwiftDataAnimalsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A0510B82B31F2F90077A28A /* Debug */,
+				3A0510B92B31F2F90077A28A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		68BB545D2A701B4B008EC4A5 /* Build configuration list for PBXProject "SwiftDataAnimals" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

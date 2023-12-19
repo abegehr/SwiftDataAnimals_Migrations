@@ -14,27 +14,37 @@ private let logger = Logger(subsystem: "com.example.apple-samplecode.SwiftDataAn
 
 // MARK: Model Container
 
-func setupModelContainer(for versionedSchema: VersionedSchema.Type = SchemaLatest.self, rollback: Bool = false) -> ModelContainer {
+func setupModelContainer(for versionedSchema: VersionedSchema.Type = SchemaLatest.self, url: URL? = nil, rollback: Bool = false) throws -> ModelContainer {
     do {
-        logger.info("init - versionedSchema: \(String(describing: versionedSchema))")
+        logger.info("setup - versionedSchema: \(String(describing: versionedSchema))")
         
         let schema = Schema(versionedSchema: versionedSchema)
-        logger.info("init - schema: \(String(describing: schema))")
+        logger.info("setup - schema: \(String(describing: schema))")
         
-        let config = ModelConfiguration(schema: Schema(versionedSchema: SchemaLatest.self))
-        logger.info("init - config: \(String(describing: config))")
+        var config: ModelConfiguration
+        if let url = url {
+            config = ModelConfiguration(schema: schema, url: url)
+        } else {
+            config = ModelConfiguration(schema: schema)
+        }
+        logger.info("setup - config: \(String(describing: config))")
         
         let container = try ModelContainer(
             for: schema,
             migrationPlan: rollback ? RollbackMigrationPlan.self : MigrationPlan.self,
             configurations: [config]
         )
-        logger.info("init - container: \(String(describing: container))")
+        logger.info("setup -> \(String(describing: container))")
         
         return container
     } catch {
-        fatalError("Failed to setup ModelContainer - Error: \(error)")
+        logger.error("setup - \(error)")
+        throw ModelError.setup(error: error)
     }
+}
+
+enum ModelError: LocalizedError {
+    case setup(error: Error)
 }
 
 // MARK: Migration Plan

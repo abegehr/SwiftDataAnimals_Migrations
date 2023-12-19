@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "0D1D23F1-69ED-4F8A-90D3-E3ED42337DAC",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:SwiftDataAnimals.xcodeproj",
+      "identifier" : "68BB54612A701B4B008EC4A5",
+      "name" : "SwiftDataAnimals"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:SwiftDataAnimals.xcodeproj",
+        "identifier" : "3A0510B02B31F2F90077A28A",
+        "name" : "SwiftDataAnimalsTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -20,8 +20,8 @@ enum SchemaV2: VersionedSchema {
 extension SchemaV2 {
     @Model
     final class Animal {
-        var name: String
-        var diet: Diet
+        var name: String?
+        var diet: Diet?
         var category: AnimalCategory?
         var extinct: Bool? = false
         
@@ -40,11 +40,11 @@ extension SchemaV2 {
     
     @Model
     final class AnimalCategory {
-        @Attribute(.unique) var name: String
+        var name: String?
         // `.cascade` tells SwiftData to delete all animals contained in the
         // category when deleting it.
         @Relationship(deleteRule: .cascade, inverse: \Animal.category)
-        var animals = [Animal]()
+        var animals: [Animal]? = []
         
         init(name: String) {
             self.name = name

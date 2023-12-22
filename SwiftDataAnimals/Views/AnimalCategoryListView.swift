@@ -60,7 +60,7 @@ private struct ListCategories: View {
     
     var body: some View {
         ForEach(animalCategories) { animalCategory in
-            NavigationLink(animalCategory.name, value: animalCategory.name)
+            NavigationLink(animalCategory.name ?? "Category", value: animalCategory.name)
         }
     }
 }

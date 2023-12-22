@@ -46,13 +46,13 @@ final class ModelTests: XCTestCase {
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
         
         // Setup V1
-        container = try setupModelContainer(for: SchemaV1.self, url: self.url)
+        container = try setupModelContainer(for: SchemaV1.self, url: self.url, useCloudKit: false)
         context = ModelContext(container)
         try loadSampleDataSchemaV1(context: context)
         let animalsV1 = try context.fetch(FetchDescriptor<SchemaV1.Animal>())
         
         // Migration V1 -> V2
-        container = try setupModelContainer(for: SchemaV2.self, url: self.url)
+        container = try setupModelContainer(for: SchemaV2.self, url: self.url, useCloudKit: false)
         context = ModelContext(container)
         
         // Assert: all animals should have extinct==false
@@ -60,7 +60,7 @@ final class ModelTests: XCTestCase {
         XCTAssert(animals.allSatisfy { $0.extinct == false }, "Not all animals have extinct set to false.")
         
         // Rollback V2 -> V1
-        container = try setupModelContainer(for: SchemaV1.self, url: self.url, rollback: true)
+        container = try setupModelContainer(for: SchemaV1.self, url: self.url, useCloudKit: false, rollback: true)
         context = ModelContext(container)
         
         // Assert: there are the same number of animals as before the migration

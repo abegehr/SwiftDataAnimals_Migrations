@@ -32,7 +32,7 @@ struct AnimalEditor: View {
                 Picker("Category", selection: $selectedCategory) {
                     Text("Select a category").tag(nil as AnimalCategory?)
                     ForEach(categories) { category in
-                        Text(category.name).tag(category as AnimalCategory?)
+                        Text(category.name ?? "Category").tag(category as AnimalCategory?)
                     }
                 }
                 
@@ -67,9 +67,9 @@ struct AnimalEditor: View {
             .onAppear {
                 if let animal {
                     // Edit the incoming animal.
-                    name = animal.name
-                    selectedDiet = animal.diet
-                    selectedCategory = animal.category
+                    name = animal.name ?? ""
+                    selectedDiet = animal.diet ?? .omnivorous
+                    selectedCategory = animal.category ?? .none
                 }
             }
             #if os(macOS)

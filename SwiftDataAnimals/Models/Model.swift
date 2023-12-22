@@ -9,12 +9,13 @@
 import Foundation
 import SwiftData
 import OSLog
+import CoreData
 
 private let logger = Logger(subsystem: "com.example.apple-samplecode.SwiftDataAnimals", category: "Model")
 
 // MARK: Model Container
 
-func setupModelContainer(for versionedSchema: VersionedSchema.Type = SchemaLatest.self, url: URL? = nil, rollback: Bool = false) throws -> ModelContainer {
+func setupModelContainer(for versionedSchema: VersionedSchema.Type = SchemaLatest.self, url: URL? = nil, useCloudKit: Bool = true, rollback: Bool = false) throws -> ModelContainer {
     do {
         logger.info("setup - versionedSchema: \(String(describing: versionedSchema))")
         
@@ -23,12 +24,19 @@ func setupModelContainer(for versionedSchema: VersionedSchema.Type = SchemaLates
         
         var config: ModelConfiguration
         if let url = url {
-            config = ModelConfiguration(schema: schema, url: url)
+            config = ModelConfiguration(schema: schema, url: url, cloudKitDatabase: useCloudKit ? .automatic : .none)
         } else {
-            config = ModelConfiguration(schema: schema)
+            config = ModelConfiguration(schema: schema, cloudKitDatabase: useCloudKit ? .automatic : .none)
         }
         logger.info("setup - config: \(String(describing: config))")
         
+#if DEBUG
+        if useCloudKit {
+            // TODO: does this run on an iOS device w/o iCloud account?
+            try initCloudKitDevelopmentSchema(config: config)
+        }
+#endif
+
         let container = try ModelContainer(
             for: schema,
             migrationPlan: rollback ? RollbackMigrationPlan.self : MigrationPlan.self,
@@ -40,6 +48,35 @@ func setupModelContainer(for versionedSchema: VersionedSchema.Type = SchemaLates
     } catch {
         logger.error("setup - \(error)")
         throw ModelError.setup(error: error)
+    }
+}
+
+/// Initialize the CloudKit development schema: https://developer.apple.com/documentation/swiftdata/syncing-model-data-across-a-persons-devices#Initialize-the-CloudKit-development-schema
+func initCloudKitDevelopmentSchema(config: ModelConfiguration) throws {
+    // Use an autorelease pool to make sure Swift deallocates the persistent
+    // container before setting up the SwiftData stack.
+    try autoreleasepool {
+        let desc = NSPersistentStoreDescription(url: config.url)
+        let opts = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.com.example.apple-samplecode.SwiftDataAnimalsEW3E677XMJ")
+        desc.cloudKitContainerOptions = opts
+        // Load the store synchronously so it completes before initializing the
+        // CloudKit schema.
+        desc.shouldAddStoreAsynchronously = false
+        if let mom = NSManagedObjectModel.makeManagedObjectModel(for: SchemaLatest.models) {
+            let container = NSPersistentCloudKitContainer(name: config.name, managedObjectModel: mom)
+            container.persistentStoreDescriptions = [desc]
+            container.loadPersistentStores {_, err in
+                if let err {
+                    fatalError(err.localizedDescription)
+                }
+            }
+            // Initialize the CloudKit schema after the store finishes loading.
+            try container.initializeCloudKitSchema()
+            // Remove and unload the store from the persistent container.
+            if let store = container.persistentStoreCoordinator.persistentStores.first {
+                try container.persistentStoreCoordinator.remove(store)
+            }
+        }
     }
 }
 
@@ -75,7 +112,7 @@ enum MigrationPlan: SchemaMigrationPlan {
             // default all animals to not extinct
             for animal in animals {
                 animal.extinct = false
-                logger.info("migrateV1toV2 - updated animal \(animal.name)")
+                logger.info("migrateV1toV2 - updated animal \(animal.name ?? "Unknown")")
             }
             
             try context.save()

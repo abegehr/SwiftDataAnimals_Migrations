@@ -39,7 +39,7 @@ private struct AnimalList: View {
         @Bindable var navigationContext = navigationContext
         List(selection: $navigationContext.selectedAnimal) {
             ForEach(animals) { animal in
-                NavigationLink(animal.name, value: animal)
+                NavigationLink(animal.name ?? "Animal", value: animal)
             }
             .onDelete(perform: removeAnimals)
         }
@@ -103,7 +103,7 @@ private struct AddAnimalButton: View {
 
 #Preview("No animals") {
     ModelContainerPreview(ModelContainer.sample) {
-        AnimalList(animalCategoryName: AnimalCategory.fish.name)
+        AnimalList(animalCategoryName: AnimalCategory.fish.name ?? "AnimalCategory")
             .environment(NavigationContext())
     }
 }

@@ -15,9 +15,21 @@ private let logger = Logger(subsystem: "com.example.apple-samplecode.SwiftDataAn
 
 // MARK: Model Container
 
+@discardableResult
 func setupModelContainer(for versionedSchema: VersionedSchema.Type = SchemaLatest.self, url: URL? = nil, useCloudKit: Bool = true, rollback: Bool = false) throws -> ModelContainer {
+    
+#if DEBUG
+    // disable CloudKit when running tests
+    var useCloudKit = useCloudKit
+    let runningTest = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil // !TODO: is this safe?
+    if (runningTest) {
+        logger.info("setup - disabling CloudKit on testing run.")
+        useCloudKit = false
+    }
+#endif
+    
     do {
-        logger.info("setup - versionedSchema: \(String(describing: versionedSchema))")
+        logger.info("setup - versionedSchema: \(String(describing: versionedSchema)), url: \(String(describing: url)), useCloudKit: \(useCloudKit), rollback: \(rollback)")
         
         let schema = Schema(versionedSchema: versionedSchema)
         logger.info("setup - schema: \(String(describing: schema))")
@@ -36,7 +48,7 @@ func setupModelContainer(for versionedSchema: VersionedSchema.Type = SchemaLates
             try initCloudKitDevelopmentSchema(config: config)
         }
 #endif
-
+        
         let container = try ModelContainer(
             for: schema,
             migrationPlan: rollback ? RollbackMigrationPlan.self : MigrationPlan.self,
@@ -53,6 +65,8 @@ func setupModelContainer(for versionedSchema: VersionedSchema.Type = SchemaLates
 
 /// Initialize the CloudKit development schema: https://developer.apple.com/documentation/swiftdata/syncing-model-data-across-a-persons-devices#Initialize-the-CloudKit-development-schema
 func initCloudKitDevelopmentSchema(config: ModelConfiguration) throws {
+    logger.info("initCloudKitDevelopmentSchema()")
+    
     // Use an autorelease pool to make sure Swift deallocates the persistent
     // container before setting up the SwiftData stack.
     try autoreleasepool {

@@ -1,4 +1,4 @@
-# SwiftData Animals
+# SwiftData Animals with Migrations
 
 ## Configure the sample code project
 
